@@ -1,5 +1,6 @@
 package org.koreait;
 
+import org.koreait.articleManager.Container;
 import org.koreait.util.DBUtil;
 import org.koreait.util.SecSql;
 
@@ -12,10 +13,10 @@ import java.util.Scanner;
 public class App {
     public void run() {
         System.out.println("==프로그램 시작==");
-        Scanner sc = new Scanner(System.in);
+
         while (true) {
             System.out.print("명령어 > ");
-            String cmd = sc.nextLine().trim();
+            String cmd = Container.getSc().nextLine().trim();
             Connection conn = null;
             try {
                 Class.forName("org.mariadb.jdbc.Driver");
@@ -25,10 +26,9 @@ public class App {
             String url = "jdbc:mariadb://127.0.0.1:3306/AM_JDBC_2024_07?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul";
             try {
                 conn = DriverManager.getConnection(url, "root", "");
-                int actionResult = doAction(conn, sc, cmd);
+                int actionResult = doAction(conn, Container.getSc(), cmd);
                 if (actionResult == -1) {
                     System.out.println("==프로그램 종료==");
-                    sc.close();
                     break;
                 }
             } catch (SQLException e) {
@@ -77,6 +77,7 @@ public class App {
                     continue;
                 }
                 break;
+
             }
             while (true) {
                 System.out.print("비밀번호 : ");
